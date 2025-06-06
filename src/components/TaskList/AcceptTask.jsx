@@ -1,6 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const AcceptTask = ({data}) => {
+const AcceptTask = ({data,handleCompleted,handleFailed,Completed,Failed}) => {
+    // console.log(data)
+    // console.log(handleCompleted)
+
+    const [status,setStatus] = useState('pending')
+    
+    function completed(){
+        setStatus('Completed')
+        const com = Completed + 1
+        handleCompleted(com)
+        
+    }
+    function failed(){
+        setStatus('Failed')
+        const fail = Failed + 1
+        handleFailed(fail)
+    }
+
+ 
     
   return (
     <div className='flex-shrink-0 h-full w-[300px] p-5 bg-red-400 rounded-xl'>
@@ -12,10 +30,20 @@ const AcceptTask = ({data}) => {
             <p className='text-sm mt-2'>
                 {data.taskDescription}
             </p>
-            <div className='flex justify-between mt-6 '>
-                <button className='bg-green-500 rounded font-medium py-1 px-2 text-xs'>Mark as Completed</button>
-                <button className='bg-red-500 rounded font-medium py-1 px-2 text-xs'>Mark as Failed</button>
-            </div>
+            
+            {status === 'pending' && (<div className='flex justify-between mt-6 '>
+                <button onClick ={completed} className='bg-green-500 rounded font-medium py-1 px-2 text-xs'>Mark as Completed</button>
+            <button  onClick ={failed} className='bg-red-500 rounded font-medium py-1 px-2 text-xs'>Mark as Failed</button>
+            </div>) }
+            {status === 'Failed' && (
+            <div className='mt-5'>
+            <button className='w-full bg-red-600 rounded font-medium py-1 px-2 text-xs'>Failed</button>
+            </div>)}
+            { status === 'Completed' && (
+            <div className='mt-5'>
+            <button className='w-full bg-green-600 rounded font-medium py-1 px-2 text-xs'>Completed</button>
+            </div>)}
+            
         </div>
   )
 }
